@@ -5,9 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Home as HomeIcon, Award } from 'lucide-react';
 import TextReveal from '../components/ui/TextReveal';
 import { PROJECTS } from '../constants';
-import Cursor from '../components/ui/Cursor';
+import { useCursor } from '../context/CursorContext';
 import ExperienceCard from '../components/ui/ExperienceCard';
-import HeroSlider from '../components/ui/HeroSlider';
+import Hero from '../components/ui/Hero';
 import TestimonialSlider from '../components/ui/TestimonialSlider';
 import { motion } from 'motion/react';
 
@@ -16,27 +16,9 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const horizontalRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const [cursorHover, setCursorHover] = useState(false);
-  const [cursorType, setCursorType] = useState<'default' | 'view'>('default');
+  const { setCursorType, setIsHovering } = useCursor();
 
   useEffect(() => {
-    // Hero Animations
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-      tl.from('.hero-bottom', { y: 50, opacity: 0, duration: 1.2, ease: 'power4.out' });
-
-      gsap.to('.hero-bg', {
-        scale: 1.2,
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
-    }, heroRef);
-
     // Horizontal Scroll
     const horizCtx = gsap.context(() => {
       const sections = gsap.utils.toArray('.horizontal-section');
@@ -57,85 +39,18 @@ export default function Home() {
     }, triggerRef);
 
     return () => {
-      ctx.revert();
       horizCtx.revert();
     };
   }, []);
 
   const handleProjectHover = (hovering: boolean) => {
-    setCursorHover(hovering);
+    setIsHovering(hovering);
     setCursorType(hovering ? 'view' : 'default');
   };
 
   return (
     <div className="bg-bg">
-      <HeroSlider />
-      <Cursor isHovering={cursorHover} type={cursorType} />
-
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex flex-col pt-32 pb-12 px-8 md:px-12 md:pt-48 overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 flex-grow">
-          {/* Left Section: Hero Text */}
-          <div className="col-span-1 md:col-span-5 flex flex-col justify-between py-4 z-10">
-            <div>
-              <p className="hero-bottom text-sm uppercase tracking-[0.2em] font-light max-w-xs leading-relaxed opacity-60 font-sans">
-                Transforming spaces with a subtle touch. A high-end creative studio experience.
-              </p>
-            </div>
-            
-            {/* Reveal Animation Placeholder Link */}
-            <div className="mt-12 md:mt-0 font-sans text-xl font-medium leading-tight max-w-[280px]">
-              <span className="text-black inline-block mr-1">We don't just</span>
-              <span className="text-brand inline-block mr-1">design spaces,</span>
-              <span className="text-neutral-400 inline-block mr-1">we transform</span>
-              <span className="text-neutral-300 inline-block mr-1">how they</span>
-              <span className="text-neutral-200 inline-block">feel.</span>
-            </div>
-          </div>
-
-          {/* Right Section: Immersive Imagery */}
-          <div 
-            className="col-span-1 md:col-span-7 relative group min-h-[500px] md:min-h-0"
-            onMouseEnter={() => handleProjectHover(true)}
-            onMouseLeave={() => handleProjectHover(false)}
-          >
-            <div className="w-full h-full bg-gray-soft rounded-sm overflow-hidden relative">
-              <div className="absolute inset-0 z-0">
-                <img 
-                  src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=2400" 
-                  className="hero-bg w-full h-full object-cover grayscale brightness-90 group-hover:brightness-100 transition-all duration-1000"
-                  alt="Interior"
-                />
-              </div>
-
-              {/* Project Title Overlay */}
-              <div className="absolute bottom-12 left-12 text-white z-10">
-                <div className="text-[10px] uppercase tracking-[0.3em] mb-4 font-bold">Featured Space</div>
-                <div className="text-3xl md:text-5xl font-serif italic tracking-tight">The Modern Monolith</div>
-              </div>
-            </div>
-
-            {/* Counter / Rail Simulation */}
-            <div className="absolute -right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-6">
-              <span className="text-[10px] rotate-90 tracking-widest text-brand font-bold">01</span>
-              <div className="w-[1px] h-32 bg-gray-200 relative">
-                <div className="absolute top-0 left-0 w-full h-8 bg-brand animate-pulse" />
-              </div>
-              <span className="text-[10px] rotate-90 tracking-widest text-gray-400 font-bold">0{PROJECTS.length}</span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Scroll indicator refined */}
-        <div className="mt-12 md:mt-24 flex items-center justify-center md:justify-between border-t border-gray-100 pt-8 text-[10px] uppercase tracking-[0.2em] font-medium font-sans">
-          <div className="hidden md:flex gap-12">
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="animate-bounce">Scroll to explore</span>
-            <div className="w-px h-8 bg-black/10 hidden md:block" />
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Intro Text Section */}
       <section className="py-12 md:py-24 px-8 md:px-20 max-w-7xl mx-auto">
@@ -186,18 +101,23 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
           {PROJECTS.filter(p => p.featured).slice(0, 2).map((project, idx) => (
-            <Link 
+            <motion.div 
               key={project.id}
-              to={`/project/${project.id}`}
-              className={`project-card relative group ${idx % 2 === 1 ? 'md:mt-40' : ''}`}
-              onMouseEnter={() => handleProjectHover(true)}
-              onMouseLeave={() => handleProjectHover(false)}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              className={idx % 2 === 1 ? 'md:mt-40' : ''}
             >
+              <Link 
+                to={`/project/${project.id}`}
+                className="project-card relative group block"
+                onMouseEnter={() => handleProjectHover(true)}
+                onMouseLeave={() => handleProjectHover(false)}
+              >
               <div className="overflow-hidden aspect-[4/5] bg-neutral-100">
                 <img 
                   src={project.thumbnail} 
                   alt={project.title}
-                  className="project-image-hover w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-100"
+                  className="project-image-hover w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500 ease-out"
                 />
               </div>
               <div className="mt-6 flex justify-between items-start">
@@ -208,6 +128,7 @@ export default function Home() {
                 <span className="font-sans text-sm">{project.year}</span>
               </div>
             </Link>
+          </motion.div>
           ))}
         </div>
       </section>

@@ -1,18 +1,22 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useCursor } from '../../context/CursorContext';
 
-interface CursorProps {
-  isHovering?: boolean;
-  type?: 'default' | 'view';
-}
-
-export default function Cursor({ isHovering = false, type = 'default' }: CursorProps) {
+export default function Cursor() {
+  const { isHovering, cursorType } = useCursor();
   const cursorRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const cursor = cursorRef.current;
     if (!cursor) return;
+
+    // Check if touch device
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) {
+      cursor.style.display = 'none';
+      return;
+    }
 
     const onMouseMove = (e: MouseEvent) => {
       gsap.to(cursor, {
@@ -23,8 +27,23 @@ export default function Cursor({ isHovering = false, type = 'default' }: CursorP
       });
     };
 
+    const onMouseLeave = () => {
+      gsap.to(cursor, { opacity: 0, duration: 0.3 });
+    };
+
+    const onMouseEnter = () => {
+      gsap.to(cursor, { opacity: 1, duration: 0.3 });
+    };
+
     window.addEventListener('mousemove', onMouseMove);
-    return () => window.removeEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
+    document.addEventListener('mouseenter', onMouseEnter);
+    
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      document.removeEventListener('mouseenter', onMouseEnter);
+    };
   }, []);
 
   useEffect(() => {
@@ -32,15 +51,15 @@ export default function Cursor({ isHovering = false, type = 'default' }: CursorP
     
     if (isHovering) {
       gsap.to(cursorRef.current, {
-        scale: type === 'view' ? 6 : 2,
-        backgroundColor: type === 'view' ? 'rgba(255, 106, 0, 0.2)' : '#ff6a00',
-        backdropFilter: type === 'view' ? 'blur(4px)' : 'none',
-        border: type === 'view' ? '1px solid rgba(255, 255, 255, 0.4)' : 'none',
-        mixBlendMode: type === 'view' ? 'normal' : 'difference',
+        scale: cursorType === 'view' ? 6 : 2,
+        backgroundColor: cursorType === 'view' ? 'rgba(255, 106, 0, 0.2)' : '#ff6a00',
+        backdropFilter: cursorType === 'view' ? 'blur(4px)' : 'none',
+        border: cursorType === 'view' ? '1px solid rgba(255, 255, 255, 0.4)' : 'none',
+        mixBlendMode: cursorType === 'view' ? 'normal' : 'difference',
         duration: 0.4,
         ease: 'power3.out'
       });
-      if (type === 'view') {
+      if (cursorType === 'view') {
         gsap.to(textRef.current, { opacity: 1, duration: 0.2 });
       }
     } else {
@@ -55,7 +74,7 @@ export default function Cursor({ isHovering = false, type = 'default' }: CursorP
       });
       gsap.to(textRef.current, { opacity: 0, duration: 0.2 });
     }
-  }, [isHovering, type]);
+  }, [isHovering, cursorType]);
 
   return (
     <div
@@ -72,3 +91,4 @@ export default function Cursor({ isHovering = false, type = 'default' }: CursorP
     </div>
   );
 }
+

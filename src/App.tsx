@@ -10,6 +10,8 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
 import ProjectDetail from './pages/ProjectDetail';
+import Cursor from './components/ui/Cursor';
+import { CursorProvider } from './context/CursorContext';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -50,6 +52,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      <Cursor />
       <Navbar />
       <main className="min-h-screen">
         {children}
@@ -63,19 +66,22 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <Router>
-      <ScrollToTop />
-      {loading && <Loader onComplete={() => setLoading(false)} />}
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/project/:id" element={<ProjectDetail />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <CursorProvider>
+      <Router>
+        <ScrollToTop />
+        {loading && <Loader onComplete={() => setLoading(false)} />}
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/project/:id" element={<ProjectDetail />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </CursorProvider>
   );
 }
+

@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { PROJECTS } from '../constants';
-import Cursor from '../components/ui/Cursor';
+import { useCursor } from '../context/CursorContext';
 
 const CATEGORIES = ['All', 'Residential', 'Commercial', 'Hospitality'];
 
 export default function Work() {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [cursorHover, setCursorHover] = useState(false);
+  const { setCursorType, setIsHovering, resetCursor } = useCursor();
+
+  useEffect(() => {
+    setCursorType('view');
+    return () => resetCursor();
+  }, [setCursorType, resetCursor]);
 
   const filteredProjects = activeCategory === 'All' 
     ? PROJECTS 
@@ -15,7 +21,6 @@ export default function Work() {
 
   return (
     <div className="pt-32 pb-40 px-8 md:px-20 bg-bg min-h-screen">
-      <Cursor isHovering={cursorHover} type="view" />
 
       <header className="mb-20 max-w-4xl">
         <h1 className="font-serif text-6xl md:text-9xl tracking-tighter mb-8">Selected<br />Works</h1>
@@ -42,21 +47,25 @@ export default function Work() {
         ))}
       </div>
 
-      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
         {filteredProjects.map((project, idx) => (
-          <Link
+          <motion.div
             key={project.id}
-            to={`/project/${project.id}`}
-            className={`project-card group ${idx % 3 === 1 ? 'md:-mt-20' : ''}`}
-            onMouseEnter={() => setCursorHover(true)}
-            onMouseLeave={() => setCursorHover(false)}
+            className={idx % 3 === 1 ? 'md:-mt-20' : ''}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
           >
+            <Link
+              to={`/project/${project.id}`}
+              className="project-card group block"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
             <div className="overflow-hidden aspect-[4/5] bg-neutral-100 flex items-center justify-center">
               <img 
                 src={project.thumbnail} 
                 alt={project.title}
-                className="project-image-hover w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                className="project-image-hover w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 ease-out"
               />
             </div>
             <div className="mt-8 flex justify-between items-end border-t border-black/5 pt-6">
@@ -69,6 +78,7 @@ export default function Work() {
               </div>
             </div>
           </Link>
+        </motion.div>
         ))}
       </div>
     </div>

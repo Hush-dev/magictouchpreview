@@ -1,15 +1,27 @@
 import React from 'react';
 import TextReveal from '../components/ui/TextReveal';
 import { ArrowDownRight } from 'lucide-react';
+import { useCursor } from '../context/CursorContext';
 
 export default function About() {
+  const { setCursorType, setIsHovering } = useCursor();
+  
+  const handleHover = (isHovering: boolean, type: 'default' | 'view' = 'default') => {
+    setIsHovering(isHovering);
+    setCursorType(type);
+  };
+
   return (
     <div className="bg-bg min-h-screen">
       {/* Hero */}
       <section className="pt-40 pb-20 px-8 md:px-20 max-w-7xl mx-auto">
         <h1 className="font-serif text-6xl md:text-[10rem] tracking-tighter leading-none mb-12">The subtle<br />art of mood.</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-end">
-          <div className="relative aspect-square md:aspect-[4/5] overflow-hidden">
+          <div 
+            className="relative aspect-square md:aspect-[4/5] overflow-hidden"
+            onMouseEnter={() => handleHover(true, 'view')}
+            onMouseLeave={() => handleHover(false)}
+          >
             <img 
               src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200" 
               alt="Studio" 
@@ -37,7 +49,7 @@ export default function About() {
           </div>
           <div className="flex-1 text-neutral-400 space-y-8 font-light text-lg">
             <p>
-              Under the creative direction of Julian Vane, the studio has grown from a boutique consultancy into a globally recognized design firm. Our approach is defined by "The Magic Touch"—the ability to find the soul of a space and craft it into a physical reality.
+              Under the creative direction of Prajyoti Durgapurohit (Degamwar), the studio has grown from a boutique consultancy into a widely recognized design firm. Our approach is defined by "The Magic Touch"—the ability to find the soul of a space and craft it into a physical reality.
             </p>
             <p>
               We avoid trends, preferring the enduring quality of timeless materials and honest craftsmanship. Our projects are not designed to be photographed, but to be lived in.
@@ -70,7 +82,12 @@ export default function About() {
               { name: 'Sofia Chen', role: 'Lead Architect', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600' },
               { name: 'Marcus Bell', role: 'Interior Stylist', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600' }
             ].map(member => (
-              <div key={member.name} className="group relative overflow-hidden bg-neutral-100 grayscale hover:grayscale-0 transition-all duration-700">
+              <div 
+                key={member.name} 
+                className="group relative overflow-hidden bg-neutral-100 grayscale hover:grayscale-0 transition-all duration-700"
+                onMouseEnter={() => handleHover(true, 'view')}
+                onMouseLeave={() => handleHover(false)}
+              >
                 <div className="aspect-[3/4]">
                   <img src={member.img} alt={member.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                 </div>

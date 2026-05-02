@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PROJECTS } from '../constants';
 import TextReveal from '../components/ui/TextReveal';
 import { ArrowLeft } from 'lucide-react';
+import { useCursor } from '../context/CursorContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +13,12 @@ export default function ProjectDetail() {
   const { id } = useParams();
   const project = PROJECTS.find(p => p.id === id);
   const heroRef = useRef<HTMLDivElement>(null);
+  const { setCursorType, setIsHovering } = useCursor();
+  
+  const handleHover = (isHovering: boolean, type: 'default' | 'view' = 'default') => {
+    setIsHovering(isHovering);
+    setCursorType(type);
+  };
 
   useEffect(() => {
     if (!project) return;
@@ -96,6 +103,8 @@ export default function ProjectDetail() {
             <div 
               key={idx} 
               className={`gallery-img overflow-hidden w-full ${idx % 2 === 1 ? 'md:w-3/4 self-end' : 'md:w-3/4'}`}
+              onMouseEnter={() => handleHover(true, 'view')}
+              onMouseLeave={() => handleHover(false)}
             >
               <div className="aspect-video bg-neutral-100 overflow-hidden">
                 <img src={img} alt="Gallery" className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 hover:brightness-100 transition-all duration-1000" />
@@ -105,7 +114,11 @@ export default function ProjectDetail() {
         </div>
       </section>
 
-      <section className="py-40 bg-black text-white px-8 md:px-20 overflow-hidden relative group">
+      <section 
+        className="py-40 bg-black text-white px-8 md:px-20 overflow-hidden relative group"
+        onMouseEnter={() => handleHover(true, 'view')}
+        onMouseLeave={() => handleHover(false)}
+      >
         <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105">
           <img src={nextProject.thumbnail} alt="Next" className="w-full h-full object-cover opacity-20 grayscale" />
         </div>

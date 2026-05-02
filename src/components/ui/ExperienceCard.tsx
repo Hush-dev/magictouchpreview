@@ -25,16 +25,18 @@ export default function ExperienceCard({ number, label, backText, Icon }: Experi
   }, [targetNumber, countValue]);
 
   return (
-    <div 
+    <motion.div 
       className="relative w-full h-44 md:h-52 perspective-1000 cursor-pointer"
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
       onClick={() => setIsFlipped(!isFlipped)}
+      whileTap={{ scale: 0.96 }}
+      transition={{ duration: 0.2 }}
     >
       <motion.div
-        className="relative w-full h-full transition-all duration-700 preserve-3d"
+        className="relative w-full h-full preserve-3d"
         animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
         {/* Front Side */}
         <div className="absolute inset-0 backface-hidden bg-white border border-black/5 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] p-6 group overflow-hidden flex flex-col justify-between">
@@ -73,6 +75,6 @@ export default function ExperienceCard({ number, label, backText, Icon }: Experi
           <div className="mt-4 w-6 h-[1px] bg-brand/50" />
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

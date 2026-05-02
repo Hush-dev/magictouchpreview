@@ -83,15 +83,15 @@ export default function Footer() {
             <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-neutral-600 mb-8">Contact / Info</h4>
             <ul className="flex flex-col gap-6 text-sm font-medium text-white">
               <li>
-                <a href="mailto:studio@magictouch.design" className="group relative inline-block transition-colors hover:text-brand">
-                  studio@magictouch.design
+                <a href="mailto:magictouchdesign@gmail.com" className="group relative inline-block transition-colors hover:text-brand">
+                  magictouchdesign@gmail.com
                   <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-brand transition-all duration-300 group-hover:w-full" />
                 </a>
               </li>
-              <li className="text-neutral-500 font-light">+44 (0) 20 7123 4567</li>
+              <li className="text-neutral-500 font-light">+91 83903 51213</li>
               <li className="text-neutral-500 font-light leading-relaxed">
-                52 Berkeley Square, Mayfair<br />
-                London W1J 5AS
+                Durgapurohit House, Samadhi Ward<br />
+                Chandrapur, Maharashtra
               </li>
             </ul>
           </div>
@@ -99,11 +99,11 @@ export default function Footer() {
       </div>
 
       {/* Bottom Strip */}
-      <div className="max-w-7xl mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-600">
+      <div className="max-w-7xl mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-600">
         <p>&copy; 2026 Magic Touch Design</p>
         <div className="flex items-center gap-2">
-          <span>Designed with precision</span>
-          <span className="text-brand text-xs">✦</span>
+          <span>Designed by </span>
+          <span className="text-brand">Hey Social</span>
         </div>
       </div>
     </motion.footer>

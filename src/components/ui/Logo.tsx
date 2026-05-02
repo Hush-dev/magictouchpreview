@@ -6,15 +6,15 @@ export default function Logo({ className = "", variant = "dark" }: { className?:
   const iconColor = variant === 'dark' ? 'bg-black' : 'bg-white';
   
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-2.5 ${className} scale-[0.85] origin-left transition-transform duration-500`}>
       <LogoSymbol color={iconColor} />
 
       {/* Text Part */}
       <div className="flex flex-col leading-none">
-        <span className={`text-2xl font-sans font-bold tracking-tight ${textColor} lowercase`}>
+        <span className={`text-lg font-sans font-bold tracking-tight ${textColor} lowercase`}>
           magic touch
         </span>
-        <span className={`text-[7px] font-sans font-medium tracking-[0.4em] ${textColor} uppercase mt-0.5`}>
+        <span className={`text-[5px] font-sans font-medium tracking-[0.4em] ${textColor} uppercase mt-0.5 opacity-60`}>
           interior design
         </span>
       </div>
