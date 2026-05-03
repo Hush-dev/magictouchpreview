@@ -6,7 +6,7 @@ export default function Logo({ className = "", variant = "dark" }: { className?:
   const iconColor = variant === 'dark' ? 'bg-black' : 'bg-white';
   
   return (
-    <div className={`flex items-center gap-2.5 ${className} scale-[0.85] origin-left transition-transform duration-500`}>
+    <div className={`flex items-center gap-2.5 ${className} scale-100 origin-left transition-transform duration-500`}>
       <LogoSymbol color={iconColor} />
 
       {/* Text Part */}
@@ -14,7 +14,7 @@ export default function Logo({ className = "", variant = "dark" }: { className?:
         <span className={`text-lg font-sans font-bold tracking-tight ${textColor} lowercase`}>
           magic touch
         </span>
-        <span className={`text-[5px] font-sans font-medium tracking-[0.4em] ${textColor} uppercase mt-0.5 opacity-60`}>
+        <span className={`text-[6px] font-sans font-medium tracking-[0.4em] ${textColor} uppercase mt-0.5 opacity-60`}>
           interior design
         </span>
       </div>

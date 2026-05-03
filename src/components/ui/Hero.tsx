@@ -22,19 +22,36 @@ const IMAGES = [
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
+  const [isIntroFinished, setIsIntroFinished] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Cinematic Intro Sequence
     const introCtx = gsap.context(() => {
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({
+        onComplete: () => setIsIntroFinished(true)
+      });
 
-      // Phase 1: Background Zoom Out
+      // Phase 1: Background Zoom Out with Darkening
       tl.fromTo(bgRef.current, 
         { scale: 1.5, opacity: 0 }, 
         { scale: 1, opacity: 1, duration: 2.2, ease: 'power4.out' }
+      );
+
+      // Animate overlay and image opacity during the zoom
+      tl.fromTo(overlayRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 2.2, ease: 'power4.out' },
+        '<'
+      );
+
+      tl.fromTo('.hero-bg-img',
+        { opacity: 1, filter: 'grayscale(0) brightness(1)' },
+        { opacity: 0.4, filter: 'grayscale(1) brightness(0.7)', duration: 2.2, ease: 'power4.out' },
+        '<'
       );
 
       // Phase 2: Staggered Content Reveal
@@ -98,7 +115,7 @@ export default function Hero() {
           <motion.div
             key={index}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.4 }}
+            animate={{ opacity: isIntroFinished ? 0.4 : 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 5, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
@@ -106,11 +123,11 @@ export default function Hero() {
             <img 
               src={IMAGES[index].url} 
               alt={IMAGES[index].title} 
-              className="w-full h-full object-cover grayscale brightness-[0.7] contrast-[1.05]"
+              className={`hero-bg-img w-full h-full object-cover contrast-[1.05] ${isIntroFinished ? 'grayscale brightness-[0.7]' : ''}`}
             />
           </motion.div>
         </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
+        <div ref={overlayRef} className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
       </div>
 
       {/* Main Content Area */}

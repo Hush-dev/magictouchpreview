@@ -11,6 +11,7 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import ProjectDetail from './pages/ProjectDetail';
 import Cursor from './components/ui/Cursor';
+import WhatsAppButton from './components/ui/WhatsAppButton';
 import { CursorProvider } from './context/CursorContext';
 
 function ScrollToTop() {
@@ -53,6 +54,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Cursor />
+      <WhatsAppButton />
       <Navbar />
       <main className="min-h-screen">
         {children}

@@ -56,12 +56,12 @@ export default function About() {
             </p>
             <div className="flex gap-10 pt-10 border-t border-white/10">
               <div>
-                <span className="block text-white text-4xl font-serif mb-2">120+</span>
+                <span className="block text-white text-4xl font-serif mb-2">100+</span>
                 <span className="text-xs uppercase tracking-widest">Spaces Crafted</span>
               </div>
               <div>
-                <span className="block text-white text-4xl font-serif mb-2">14</span>
-                <span className="text-xs uppercase tracking-widest">Global Awards</span>
+                <span className="block text-white text-4xl font-serif mb-2">5+</span>
+                <span className="text-xs uppercase tracking-widest">Years Experience</span>
               </div>
             </div>
           </div>
@@ -78,9 +78,8 @@ export default function About() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
-              { name: 'Julian Vane', role: 'Creative Director', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600' },
-              { name: 'Sofia Chen', role: 'Lead Architect', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600' },
-              { name: 'Marcus Bell', role: 'Interior Stylist', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600' }
+              { name: 'Prajyoti Durgapurohit (Degamwar)', role: 'Creative Director / Interior Stylist', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600' },
+              { name: 'Ameya Durgapurohit', role: 'Marketing Head', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600' },
             ].map(member => (
               <div 
                 key={member.name} 
