@@ -88,7 +88,12 @@ export default function Footer() {
                   <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-brand transition-all duration-300 group-hover:w-full" />
                 </a>
               </li>
-              <li className="text-neutral-500 font-light">+91 83903 51213</li>
+              <li>
+                <a href="tel:+918390351213" className="group relative inline-block transition-colors hover:text-brand">
+                  +91 83903 51213
+                  <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-brand transition-all duration-300 group-hover:w-full" />
+                </a>
+              </li>
               <li className="text-neutral-500 font-light leading-relaxed">
                 Durgapurohit House, Samadhi Ward<br />
                 Chandrapur, Maharashtra

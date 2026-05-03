@@ -100,7 +100,7 @@ export default function Contact() {
                 <a 
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://www.facebook.com/magictouchdesign" 
+                  href="https://www.facebook.com/magictouchdesign/" 
                   className="hover:text-brand transition-colors"
                   onMouseEnter={() => handleHover(true)}
                   onMouseLeave={() => handleHover(false)}
