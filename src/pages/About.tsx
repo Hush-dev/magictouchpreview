@@ -78,8 +78,8 @@ export default function About() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
-              { name: 'Prajyoti Durgapurohit (Degamwar)', role: 'Creative Director / Interior Stylist', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600' },
-              { name: 'Ameya Durgapurohit', role: 'Marketing Head', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600' },
+              { name: 'Prajyoti Durgapurohit (Degamwar)', role: 'Creative Director / Interior Stylist', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600' },
+              { name: 'Ameya Durgapurohit', role: 'Marketing Head', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600' },
             ].map(member => (
               <div 
                 key={member.name} 

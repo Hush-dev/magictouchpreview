@@ -43,7 +43,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4 md:gap-8">
           <span className={`hidden md:block text-[10px] uppercase tracking-[0.4em] font-medium transition-colors duration-500 ${textColor}`}>
-            Studio
+            Menu
           </span>
           <button 
             onClick={() => setIsOpen(true)}
